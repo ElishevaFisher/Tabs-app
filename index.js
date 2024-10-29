@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const port = 8080;
 
+const cors = require("cors"); 
+
+app.use(cors());
+
 let DB = [
   {
     id: 0,
@@ -31,45 +35,49 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.get("/users/:id", (req, res) => {
-  const id = req.params.id;
-  const user = DB.find((user) => user.id == id);
-  res.json(user);
+app.get("/cards", (req, res) => {
+  res.json(DB);
 });
 
-app.patch("/users/:id", (req, res) => {
+app.get("/cards/:id", (req, res) => {
+  const id = req.params.id;
+  const card = DB.find((card) => card.id == id);
+  res.json(card);
+});
+
+app.patch("/cards/:id", (req, res) => {
   const id = parseInt(req.params.id, 10);
-  let user = DB.find((user) => user.id === id);
-  if (!user) {
+  let card = DB.find((card) => card.id === id);
+  if (!card) {
     return res.status(404).send({ error: "User not found" });
   }
-  user = {
-    ...user,
+  card = {
+    ...card,
     ...req.body,
   };
-  DB = DB.map((item) => (item.id === id ? user : item));
-  res.json(user);
+  DB = DB.map((item) => (item.id === id ? card : item));
+  res.json(card);
 });
 
-app.delete("/users/:id", (req, res) => {
+app.delete("/cards/:id", (req, res) => {
   const id = req.params.id;
-  let index = DB.findIndex((user) => user.id == id);
+  let index = DB.findIndex((card) => card.id == id);
   if (index !== -1) {
     DB.splice(index, 1);
     res.status(204).send();
   } else {
-    res.status(404).send({ error: "user not found" });
+    res.status(404).send({ error: "card not found" });
   }
 });
 
-app.post("/users", (req, res) => {
+app.post("/cards", (req, res) => {
   const user = {
     id: DB.length + 1,
     text: req.body.text,
     background: req.body.background,
   };
-  DB.push(user);
-  res.json(user);
+  DB.push(card);
+  res.json(card);
 });
 
 app.listen(port, () => {

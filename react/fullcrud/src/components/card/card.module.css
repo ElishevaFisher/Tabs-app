@@ -1,0 +1,14 @@
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* רווח בין הכרטיסים */
+}
+
+.card {
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 150px; /* או גודל מותאם אישית */
+    text-align: center;
+    color: white; /* אפשר להוסיף צבע טקסט כדי שיהיה קריא */
+}

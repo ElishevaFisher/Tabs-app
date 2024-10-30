@@ -41,6 +41,19 @@ function CardComponent() {
     }
   };
 
+  const handleAdd = async () => {
+    const cardData = {
+      text: "new card",
+      background: "green",
+    };
+    try {
+      const addedCard=await cardsDetail.addCard(cardData);
+        setCardData((prevCardData)=>[...prevCardData,addedCard]);
+    } catch (error) {
+      console.error("Error add card:", error);
+    }
+  };
+
   const toggleColorPicker = (id) => {
     setOpenPickerId(openPickerId === id ? null : id);
   };
@@ -77,6 +90,9 @@ function CardComponent() {
           )}
         </div>
       ))}
+      <div className={Style.addCard} onClick={handleAdd}>
+        <h1>+</h1>
+      </div>
     </div>
   );
 }

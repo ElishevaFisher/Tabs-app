@@ -38,5 +38,14 @@ export const cardsDetail = {
       throw error;
     }
   },
+  async updateText(id, newText) {
+    try {
+      const response = await Http.patch(`/cards/${id}`, { text: newText });
+      return response.data;
+    } catch (error) {
+      console.error("Error update card text:", error);
+      throw error;
+    }
+  },
 };
 export default cardsDetail;

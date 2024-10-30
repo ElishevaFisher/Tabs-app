@@ -72,7 +72,7 @@ app.delete("/cards/:id", (req, res) => {
 
 app.post("/cards", (req, res) => {
   const card = {
-    id: DB.length + 1,
+    id: req.body.id,
     text: req.body.text,
     background: req.body.background,
   };

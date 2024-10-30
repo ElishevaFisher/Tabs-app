@@ -7,7 +7,8 @@ import { BsTrash3 } from "react-icons/bs";
 function CardComponent() {
   const [cardData, setCardData] = useState([]);
   const [openPickerId, setOpenPickerId] = useState(null);
-
+  const [isEditingId, setIsEditingId] = useState(null);
+  const [editText, setEditText] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       const fetchCard = await cardsDetail.getCards();
@@ -43,14 +44,39 @@ function CardComponent() {
 
   const handleAdd = async () => {
     const cardData = {
+      id: function generateUniqueID() {
+        return (
+          Math.random().toString(36).substring(2) +
+          new Date().getTime().toString(36)
+        );
+      },
       text: "new card",
       background: "green",
     };
     try {
-      const addedCard=await cardsDetail.addCard(cardData);
-        setCardData((prevCardData)=>[...prevCardData,addedCard]);
+      const addedCard = await cardsDetail.addCard(cardData);
+      setCardData((prevCardData) => [...prevCardData, addedCard]);
     } catch (error) {
       console.error("Error add card:", error);
+    }
+  };
+
+  const handleEditClick = (id, currentText) => {
+    setIsEditingId(id);
+    setEditText(currentText);
+  };
+
+  const handleTextChange = async (text, id) => {
+    try {
+      await cardsDetail.updateText(id, text);
+      setCardData((prevCardData) =>
+        prevCardData.map((card) =>
+          card.id === id ? { ...card, text: text } : card
+        )
+      );
+      setIsEditingId(null);
+    } catch (error) {
+      console.error("Error update card text:", error);
     }
   };
 
@@ -67,7 +93,19 @@ function CardComponent() {
           style={{ backgroundColor: card.background }}
           onMouseLeave={() => setOpenPickerId(null)}
         >
-          <h3>{card.text}</h3>
+          {isEditingId === card.id ? (
+            <input
+              type="text"
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              onBlur={() => handleTextChange(editText, card.id)}
+              autoFocus
+            />
+          ) : (
+            <h3 onClick={() => handleEditClick(card.id, card.text)}>
+              {card.text}
+            </h3>
+          )}
           {openPickerId === card.id ? (
             <div className={Style.colorPickerContainer}>
               <ColorPicker

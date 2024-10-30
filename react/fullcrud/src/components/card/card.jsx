@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Style from "./card.module.css";
 import ColorPicker from "../color/colorPicker.jsx";
 import { BsTrash3 } from "react-icons/bs";
-
+import {generateUniqueID} from "../../utils/utils.js";
 function CardComponent() {
   const [cardData, setCardData] = useState([]);
   const [openPickerId, setOpenPickerId] = useState(null);
@@ -44,12 +44,7 @@ function CardComponent() {
 
   const handleAdd = async () => {
     const cardData = {
-      id: function generateUniqueID() {
-        return (
-          Math.random().toString(36).substring(2) +
-          new Date().getTime().toString(36)
-        );
-      },
+      id: generateUniqueID(),
       text: "new card",
       background: "green",
     };

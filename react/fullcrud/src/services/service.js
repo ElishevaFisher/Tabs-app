@@ -19,6 +19,16 @@ export const cardsDetail={
             console.error("Error update card color:", error);
             throw error;
         }
+    },
+
+    async deleteCard(id){
+        try{
+            const response=await Http.delete(`/cards/${id}`);
+            return response.data;
+        }catch(error){
+            console.error("Error delete card", error);
+            throw error;
+        }
     }
 };
 export default cardsDetail;

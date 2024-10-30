@@ -49,7 +49,7 @@ app.patch("/cards/:id", (req, res) => {
   const id = parseInt(req.params.id, 10);
   let card = DB.find((card) => card.id === id);
   if (!card) {
-    return res.status(404).send({ error: "User not found" });
+    return res.status(404).send({ error: "card not found" });
   }
   card = {
     ...card,
@@ -71,7 +71,7 @@ app.delete("/cards/:id", (req, res) => {
 });
 
 app.post("/cards", (req, res) => {
-  const user = {
+  const card = {
     id: DB.length + 1,
     text: req.body.text,
     background: req.body.background,

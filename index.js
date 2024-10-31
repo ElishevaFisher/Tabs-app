@@ -2,28 +2,28 @@ const express = require("express");
 const app = express();
 const port = 8080;
 
-const cors = require("cors"); 
+const cors = require("cors");
 
 app.use(cors());
 
 let DB = [
   {
-    id: 0,
+    id: "0",
     text: "Text a",
     background: "green",
   },
   {
-    id: 1,
+    id: "1",
     text: "Text b",
     background: "blue",
   },
   {
-    id: 2,
+    id: "2",
     text: "Text c",
     background: "purple",
   },
   {
-    id: 3,
+    id: "3",
     text: "Text d",
     background: "orange",
   },
@@ -46,7 +46,7 @@ app.get("/cards/:id", (req, res) => {
 });
 
 app.patch("/cards/:id", (req, res) => {
-  const id = parseInt(req.params.id, 10);
+  const id = req.params.id;
   let card = DB.find((card) => card.id === id);
   if (!card) {
     return res.status(404).send({ error: "card not found" });
